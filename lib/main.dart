@@ -1,6 +1,23 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:interview/bloc/interview_bloc.dart';
+import 'package:interview/bloc/interview_state.dart';
+import 'package:interview/provider/provider_home.dart';
+import 'package:interview/provider/provider_model.dart';
+import 'package:provider/provider.dart';
+import 'API_pactice/Apipractice.dart';
+import 'CRUD API/crud_api.dart';
+import 'RESTful/complexJson.dart';
+import 'RESTful/display.dart';
+import 'RESTful/singleItem.dart';
+import 'bloc/bloc_screen.dart';
+import 'getx/gexhome.dart';
+import 'getx/kandivali/kandivali.dart';
+import 'laravel_api/larahome.dart';
+import 'laravel_api/postmethod.dart';
 import 'model.dart';
 
 
@@ -11,16 +28,11 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
-        useMaterial3: true,
-      ),
-      home: const HomePage(),
-      debugShowCheckedModeBanner: false,
+      home: CrudDemo(),
     );
   }
 }
@@ -51,8 +63,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF031338),
       appBar: AppBar(
-        title: Text('ToDo List'),
+        title: Text('ToDo List',style: TextStyle(color: Colors.white),),
+        backgroundColor: Color(0xFF031338),
       ),
       body: FutureBuilder<List<ToDoList>>(
         future: getData(),
@@ -72,7 +86,6 @@ class _HomePageState extends State<HomePage> {
                 var item = snapshot.data![index];
                 return Container(
                   height: 70,
-                  color: Colors.white70,
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -82,18 +95,18 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           CircleAvatar(
-                            child: Icon(item.completed == true ? Icons.check : Icons.error),
+                            child: Icon(item.completed == true ? Icons.check : Icons.close, color:Colors.blue,),
                           ),
                           SizedBox(width: 18,),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("${item.title}", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+                              Text("${item.title}", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white)),
                               Row(
                                 children: [
-                                  Text("Completed - ${item.completed} :", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
+                                  Text("Completed - ${item.completed} :", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.white)),
                                   SizedBox(width: 10,),
-                                  Text("priority - ${item.priority}", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
+                                  Text("priority - ${item.priority}", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.white)),
 
                                 ],
                               ),
